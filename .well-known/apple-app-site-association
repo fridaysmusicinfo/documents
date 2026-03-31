@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["6QTWH728ZM.com.maxwellsanchez.fridays-app"],
+        "components": [
+          { "/": "/join/*", "comment": "Group invite deep links" }
+        ]
+      }
+    ]
+  }
+}
