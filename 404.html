@@ -91,19 +91,12 @@
             var path = window.location.pathname; // e.g. "/join/ABCD1234"
 
             if (/^\/join\/.+/.test(path)) {
-                // Redirect to /join/?code={code} so join/index.html can read it.
-                // Also forward any extra query params (e.g. ?name=) so they
-                // are not lost during the GitHub Pages 404 rewrite.
+                // Redirect to /join/?code={code} so join/index.html can read it
                 var parts = path.split("/").filter(Boolean); // ["join", "ABCD1234"]
                 var code  = parts[1] || "";
-                var existingParams = window.location.search; // e.g. "?name=My%20Group"
-                // Build final query: always start with code, then append remaining params
-                var query = "?code=" + encodeURIComponent(code);
-                if (existingParams) {
-                    // Strip leading "?" and append remaining params
-                    query += "&" + existingParams.slice(1);
-                }
-                window.location.replace("/join/" + query);
+                window.location.replace(
+                    "/join/?code=" + encodeURIComponent(code)
+                );
             }
             // All other paths fall through and render the error page below
         })();
