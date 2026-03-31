@@ -5,7 +5,11 @@
       {
         "appIDs": ["6QTWH728ZM.com.maxwellsanchez.fridays-app"],
         "components": [
-          { "/": "/join/*", "comment": "Group invite deep links" }
+          { 
+            "/": "/join/*", 
+            "comment": "Group invite deep links - matches both /join/{code} and /join/?code={code}",
+            "query": {"code": "*"}
+          }
         ]
       }
     ]
