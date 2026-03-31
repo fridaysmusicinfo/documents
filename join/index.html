@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Fridays Group</title>
+    <!-- Title and OG tags are updated dynamically by JS below using the ?name= param -->
+    <title>Join Fridays</title>
+    <!-- Open Graph tags for iMessage / WhatsApp / Twitter link previews -->
+    <meta property="og:title" id="og-title" content="Join Fridays" />
+    <meta property="og:description" id="og-desc" content="You've been invited to join a group on Fridays." />
+    <meta property="og:image" content="https://fridays.music/og-image.png" />
+    <meta property="og:url" id="og-url" content="https://fridays.music/join" />
+    <meta property="og:type" content="website" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -120,8 +127,11 @@
         <div class="logo">Fridays</div>
 
         <div class="invite-card">
-            <div class="invite-title">You're invited!</div>
-            <div class="invite-subtitle">Someone shared a group invite with you.</div>
+            <!-- invite-title and invite-subtitle are updated by JS with the group name -->
+            <div class="invite-title" id="invite-title">You're invited!</div>
+            <div class="invite-subtitle" id="invite-subtitle">
+                You've been invited to join a group on Fridays.
+            </div>
 
             <!-- JS populates this with the extracted join code -->
             <div class="code-badge" id="code-badge">...</div>
@@ -139,24 +149,61 @@
 
     <script>
         (function () {
-            // Extract the join code. Two sources in priority order:
-            // 1. ?code= query param — set by 404.html when GitHub Pages catches /join/{code}
-            // 2. Path segment — works when accessed directly at /join/{code} if ever supported
-            var params   = new URLSearchParams(window.location.search);
-            var fromQuery = params.get("code") || "";
+            var params = new URLSearchParams(window.location.search);
 
+            // Extract join code. Two sources in priority order:
+            // 1. ?code= query param — set by 404.html when GitHub Pages catches /join/{code}
+            // 2. Path segment — works when accessed directly at /join/{code}
+            var fromQuery = params.get("code") || "";
             var pathParts = window.location.pathname.split("/").filter(Boolean);
             // pathParts[0]==="join", pathParts[1]===code (direct path fallback)
-            var fromPath  = pathParts[1] || "";
-
+            var fromPath = pathParts[1] || "";
             var code = (fromQuery || fromPath).toUpperCase();
 
-            var codeBadge  = document.getElementById("code-badge");
-            var openBtn    = document.getElementById("open-btn");
-            var statusMsg  = document.getElementById("status-msg");
+            // Extract optional group name from ?name= query param
+            // URL-encoded group name passed by the iOS app when generating the link
+            var rawName = params.get("name") || "";
+            // Decode percent-encoding (e.g. "College%20Squad" → "College Squad")
+            var groupName = "";
+            try { groupName = decodeURIComponent(rawName); } catch (e) { groupName = rawName; }
+
+            // --- Update page title and Open Graph meta tags ---
+            // NOTE: OG tags are read at share-time by crawlers, but we update them
+            // for any dynamic crawlers and for future server-side rendering.
+            var pageTitle = groupName
+                ? "Join " + groupName + " on Fridays"
+                : "Join Fridays";
+            var ogDesc = groupName
+                ? "You've been invited to join \"" + groupName + "\" on Fridays."
+                : "You've been invited to join a group on Fridays.";
+
+            document.title = pageTitle;
+            var ogTitleEl = document.getElementById("og-title");
+            var ogDescEl  = document.getElementById("og-desc");
+            var ogUrlEl   = document.getElementById("og-url");
+            if (ogTitleEl) ogTitleEl.setAttribute("content", pageTitle);
+            if (ogDescEl)  ogDescEl.setAttribute("content", ogDesc);
+            if (ogUrlEl)   ogUrlEl.setAttribute("content", window.location.href);
+
+            // --- Update invite card text ---
+            var inviteTitle    = document.getElementById("invite-title");
+            var inviteSubtitle = document.getElementById("invite-subtitle");
+            if (groupName && inviteTitle) {
+                inviteTitle.textContent = "Join " + groupName + "!";
+            }
+            if (groupName && inviteSubtitle) {
+                inviteSubtitle.textContent =
+                    "You've been invited to join \"" + groupName + "\" on Fridays.";
+            }
+
+            // --- Populate code badge and deep link button ---
+            var codeBadge = document.getElementById("code-badge");
+            var openBtn   = document.getElementById("open-btn");
+            var statusMsg = document.getElementById("status-msg");
 
             if (code) {
                 codeBadge.textContent = code;
+                // Deep link carries the code so the app can pre-fill the join sheet
                 openBtn.href = "fridays://join/" + code;
             } else {
                 codeBadge.textContent = "—";
@@ -166,8 +213,9 @@
 
             if (!code) return;
 
-            // Attempt to open the app via custom scheme.
-            // If the app is not installed, nothing happens and we show the fallback.
+            // Attempt to open the app via custom URL scheme.
+            // If the app is not installed, the redirect silently fails
+            // and the App Store button acts as the fallback.
             var appUrl = "fridays://join/" + code;
 
             // Small delay so the page renders before the URL redirect dialog
@@ -175,7 +223,7 @@
                 window.location.href = appUrl;
             }, 100);
 
-            // After 1.5 s, if we're still here the app didn't open — show fallback hint
+            // After 1.5 s, if we're still here the app didn't open — show hint
             setTimeout(function () {
                 statusMsg.textContent =
                     "App not installed? Download Fridays from the App Store.";
