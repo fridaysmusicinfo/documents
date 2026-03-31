@@ -5,92 +5,123 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #fde7d9;
-    padding: 20px;
+    color: #ffffff;
+    background-color: #0a0a0a;
+    padding: 32px 20px;
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 680px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #111111;
+    border: 1px solid #2a2a2a;
     padding: 40px;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Site logo / wordmark shown on home page */
+.site-logo {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.site-tagline {
+    font-size: 15px;
+    color: #888888;
+    margin-bottom: 40px;
 }
 
 .nav-links {
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .nav-links a {
     margin-right: 20px;
-    color: #007AFF;
+    color: #aaaaaa;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    transition: color 0.2s;
 }
 
 .nav-links a:hover {
-    text-decoration: underline;
+    color: #ffffff;
+    text-decoration: none;
 }
 
 h1 {
     font-size: 2rem;
+    font-weight: 700;
     margin-bottom: 8px;
-    color: #1a1a1a;
+    color: #ffffff;
+    letter-spacing: -0.5px;
 }
 
 .last-updated {
-    color: #666;
-    font-size: 0.9rem;
+    color: #666666;
+    font-size: 0.85rem;
     margin-bottom: 32px;
 }
 
 h2 {
-    font-size: 1.3rem;
-    margin-top: 32px;
-    margin-bottom: 16px;
-    color: #1a1a1a;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    color: #ffffff;
 }
 
 h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    font-weight: 600;
     margin-top: 24px;
-    margin-bottom: 12px;
-    color: #1a1a1a;
+    margin-bottom: 10px;
+    color: #dddddd;
 }
 
 p {
-    margin-bottom: 16px;
-    color: #444;
+    margin-bottom: 14px;
+    color: #aaaaaa;
+    font-size: 0.95rem;
 }
 
 ul {
-    margin-left: 24px;
+    margin-left: 20px;
     margin-bottom: 16px;
 }
 
 li {
     margin-bottom: 8px;
-    color: #444;
+    color: #aaaaaa;
+    font-size: 0.95rem;
+}
+
+strong {
+    color: #dddddd;
 }
 
 a {
-    color: #007AFF;
-    text-decoration: none;
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #aaaaaa;
 }
 
+/* Section card used for contact blocks */
 .contact-section {
-    background-color: #f8f8f8;
-    padding: 20px;
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    padding: 20px 24px;
     border-radius: 12px;
     margin-top: 32px;
 }
@@ -99,21 +130,65 @@ a:hover {
     margin-top: 0;
 }
 
+/* Home page link list */
+.page-links {
+    list-style: none;
+    margin: 0 0 32px 0;
+    padding: 0;
+}
+
+.page-links li {
+    margin: 0;
+    border-bottom: 1px solid #1e1e1e;
+}
+
+.page-links li:first-child {
+    border-top: 1px solid #1e1e1e;
+}
+
+.page-links li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.page-links li a::after {
+    /* Chevron arrow */
+    content: "›";
+    font-size: 1.3rem;
+    color: #444444;
+    transition: color 0.2s;
+}
+
+.page-links li a:hover {
+    color: #aaaaaa;
+}
+
+.page-links li a:hover::after {
+    color: #888888;
+}
+
 @media (max-width: 600px) {
     .container {
-        padding: 24px;
+        padding: 28px 20px;
     }
-    
+
     h1 {
         font-size: 1.6rem;
     }
-    
+
     h2 {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
     }
-    
+
     .nav-links a {
-        display: block;
+        display: inline-block;
         margin-bottom: 8px;
     }
 }
