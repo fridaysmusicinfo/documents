@@ -139,15 +139,26 @@
 
     <script>
         (function () {
+            // DEBUG: Log what we're working with
+            console.log("[DEBUG] Full URL:", window.location.href);
+            console.log("[DEBUG] pathname:", window.location.pathname);
+            console.log("[DEBUG] search:", window.location.search);
+
             // Extract the join code. Two sources in priority order:
             // 1. ?code= query param — set by 404.html when GitHub Pages catches /join/{code}
             // 2. Path segment — works when accessed directly at /join/{code} if ever supported
             var params   = new URLSearchParams(window.location.search);
             var fromQuery = params.get("code") || "";
+            console.log("[DEBUG] fromQuery:", fromQuery);
+
             var pathParts = window.location.pathname.split("/").filter(Boolean);
+            console.log("[DEBUG] pathParts:", pathParts);
             // pathParts[0]==="join", pathParts[1]===code (direct path fallback)
             var fromPath  = pathParts[1] || "";
+            console.log("[DEBUG] fromPath:", fromPath);
+
             var code = (fromQuery || fromPath).toUpperCase();
+            console.log("[DEBUG] final code:", code);
 
             var codeBadge  = document.getElementById("code-badge");
             var openBtn    = document.getElementById("open-btn");
