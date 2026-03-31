@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting…</title>
+    <script>
+        (function () {
+            // GitHub Pages serves this file for any path that doesn't have a real file.
+            // We use it to handle /join/{code} routes by forwarding to join/index.html
+            // while preserving the original path as a query param so join/index.html
+            // can extract the code.
+            var path = window.location.pathname; // e.g. "/join/ABCD1234"
+
+            // Only intercept /join/* paths; let everything else show a real 404.
+            if (/^\/join\/.+/.test(path)) {
+                // Redirect to /join/?code={code} so join/index.html can read it
+                var parts = path.split("/").filter(Boolean); // ["join", "ABCD1234"]
+                var code  = parts[1] || "";
+                window.location.replace(
+                    "/join/?code=" + encodeURIComponent(code)
+                );
+            }
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecting…</p>
+</body>
+</html>
