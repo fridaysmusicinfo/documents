@@ -117,6 +117,24 @@ a:hover {
     color: #aaaaaa;
 }
 
+/* About section on home page */
+.about-section {
+    margin-bottom: 28px;
+}
+
+.about-section h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.about-section p {
+    color: #bbbbbb;
+}
+
+.about-section + .about-section {
+    margin-top: 0;
+}
+
 /* Section card used for contact blocks */
 .contact-section {
     background-color: #1a1a1a;
