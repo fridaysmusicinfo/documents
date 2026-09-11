@@ -8,9 +8,13 @@
     <!-- Open Graph tags for iMessage / WhatsApp / Twitter link previews -->
     <meta property="og:title" content="Join a group on Fridays! 🕺" />
     <meta property="og:description" content="Open in Fridays to join the group and share your weekly song pick." />
-    <meta property="og:image" content="https://fridays.music/og-image.png" />
+    <meta property="og:image" content="https://fridays.music/app-clip-invite-preview.png" />
     <meta property="og:url" content="https://fridays.music/join" />
     <meta property="og:type" content="website" />
+    <meta
+        name="apple-itunes-app"
+        content="app-id=6757407973, app-clip-bundle-id=com.maxwellsanchez.fridays-app.Clip, app-clip-display=card"
+    />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -144,7 +148,9 @@
             </a>
         </div>
 
-        <div class="status-msg" id="status-msg">Opening Fridays…</div>
+        <div class="status-msg" id="status-msg">
+            Already have Fridays? Tap Open in Fridays.
+        </div>
     </div>
 
     <script>
@@ -177,21 +183,6 @@
 
             if (!code) return;
 
-            // Attempt to open the app via custom URL scheme.
-            // If the app is not installed, the redirect silently fails
-            // and the App Store button acts as the fallback.
-            var appUrl = "fridays://join/" + code;
-
-            // Small delay so the page renders before the URL redirect dialog
-            setTimeout(function () {
-                window.location.href = appUrl;
-            }, 100);
-
-            // After 1.5 s, if we're still here the app didn't open — show hint
-            setTimeout(function () {
-                statusMsg.textContent =
-                    "App not installed? Download Fridays from the App Store.";
-            }, 1500);
         })();
     </script>
 </body>
