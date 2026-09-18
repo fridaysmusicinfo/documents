@@ -12,11 +12,7 @@
     <!-- Do not canonicalize invitations to /join: each query contains a
          different invite code. Preview clients must retain the shared URL. -->
     <meta property="og:type" content="website" />
-    <meta
-        name="apple-itunes-app"
-        content="app-id=6757407973, app-clip-bundle-id=com.maxwellsanchez.fridays-app.Clip, app-clip-display=card"
-    />
-    <style>
+<style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -135,7 +131,7 @@
             <!-- invite-title and invite-subtitle are updated by JS with the group name -->
             <div class="invite-title" id="invite-title">You're invited!</div>
             <div class="invite-subtitle" id="invite-subtitle">
-                You've been invited to join a group on Fridays.
+                Keep the code below. Open Fridays to join, or install the app and enter this code in Join a Group.
             </div>
 
             <!-- JS populates this with the extracted join code -->
@@ -150,7 +146,7 @@
         </div>
 
         <div class="status-msg" id="status-msg">
-            Already have Fridays? Tap Open in Fridays.
+            Tap Open in Fridays if installed. Otherwise, keep your code and get the app below.
         </div>
     </div>
 
@@ -165,7 +161,10 @@
             var pathParts = window.location.pathname.split("/").filter(Boolean);
             // pathParts[0]==="join", pathParts[1]===code (direct path fallback)
             var fromPath = pathParts[1] || "";
-            var code = (fromQuery || fromPath).toUpperCase();
+            var compactCode = (fromQuery || "").replace(/[\s-]/g, "").toUpperCase();
+            var code = /^[A-Z0-9]{8}$/.test(compactCode)
+                ? compactCode.slice(0, 4) + "-" + compactCode.slice(4)
+                : "";
 
             // --- Populate code badge and deep link button ---
             var codeBadge = document.getElementById("code-badge");
@@ -175,7 +174,7 @@
             if (code) {
                 codeBadge.textContent = code;
                 // Deep link carries the code so the app can pre-fill the join sheet
-                openBtn.href = "fridays://join/" + code;
+                openBtn.href = "fridays://join/" + encodeURIComponent(code);
             } else {
                 codeBadge.textContent = "—";
                 statusMsg.textContent = "Invalid invite link.";
